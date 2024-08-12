@@ -5,7 +5,7 @@ import Feed from "./feed/Feed";
 import BottomBar from "./bottombar/BottomBar";
 
 const Main = () => {
-	const models = ["GPT-4o", "Claude 3 Sonnet", "Llama 3.1 8B"];
+	const models = ["GPT-4o", "Claude 3 Sonnet", "Llama 3.1 8B", "Knowledge Graph"];
 	const [fileData, setFileData] = useState(null);
 	const [modelState, setModelState] = useState(models.map((model) => ({ name: model, selected: false, temp: 0.1, results: [] })));
 
