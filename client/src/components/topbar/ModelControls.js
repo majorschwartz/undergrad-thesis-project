@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 
 const ModelControls = ({ modelState, setModelState }) => {
-    const selectedModels = modelState.filter((model) => model.selected);
+    const selectedModels = modelState.filter(
+        (model) => model.selected && model.name !== "Knowledge Graph"
+    );
 	const [showControls, setShowControls] = useState(false);
 
     return (
