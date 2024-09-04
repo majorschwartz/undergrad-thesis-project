@@ -1,10 +1,12 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from openai import OpenAI
 import anthropic
 import httpx
 import os
 from dotenv import load_dotenv
+from pydantic import BaseModel
+from typing import List
 
 load_dotenv()
 
@@ -20,6 +22,29 @@ app.add_middleware(
 @app.get("/")
 async def root():
 	return {"message": "Hello World"}
+
+class Questions(BaseModel):
+    questions: List[str]
+
+@app.post("/ask_llms")
+async def ask_llms(questions: Questions):
+    results = []
+    for question in questions.questions:
+        try:
+            openai_response = await generate_openai(question)
+            claude_response = await generate_claude(question)
+            local_response = await generate_local(question)
+            
+            results.append({
+                "question": question,
+                "openai": openai_response,
+                "claude": claude_response,
+                "local": local_response
+            })
+        except Exception as e:
+            raise HTTPException(status_code=500, detail=f"Error processing question: {str(e)}")
+    
+    return {"results": results}
 
 async def generate_openai(prompt: str):
 	client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
