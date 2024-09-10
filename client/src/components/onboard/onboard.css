@@ -5,7 +5,7 @@
 	align-items: center;
 	height: 100dvh;
 	width: 100%;
-	gap: 20px;
+	gap: 30px;
 }
 
 .upload-area {
@@ -79,4 +79,18 @@
 .model-select.selected {
 	background-color: #61a8ff;
 	border: 2px solid #3e95ff;
+}
+
+.create-run-button {
+	background-color: #4CAF50;
+	color: white;
+	border: none;
+	padding: 10px 20px;
+	border-radius: 5px;
+	cursor: pointer;
+}
+
+.create-run-button.disabled {
+	background-color: #ccc;
+	cursor: not-allowed;
 }
