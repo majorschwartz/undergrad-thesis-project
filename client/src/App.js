@@ -1,12 +1,17 @@
 import "./App.css";
-import Sidebar from "components/sidebar/Sidebar";
-import Main from "components/Main";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import CreateRun from "./components/CreateRun";
+import ShowRun from "./components/ShowRun";
 
 function App() {
     return (
         <div className="App">
-            <Sidebar />
-			<Main />
+            <Router>
+                <Routes>
+                    <Route path="/" element={<CreateRun />} />
+                    <Route path="/r/:run_id" element={<ShowRun />} />
+                </Routes>
+            </Router>
         </div>
     );
 }

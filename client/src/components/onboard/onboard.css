@@ -1,0 +1,82 @@
+.onboard {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	height: 100dvh;
+	width: 100%;
+	gap: 20px;
+}
+
+.upload-area {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	gap: 15px;
+	height: 150px;
+	width: 400px;
+	background-color: transparent;
+	border: 2px dashed #000;
+	border-radius: 10px;
+	cursor: pointer;
+	transition: all 0.3s ease;
+}
+
+.upload-area.dragging {
+	border: 2px solid #426bff;
+	background-color: rgba(0, 0, 0, 0.05);
+}
+
+.upload-area.file-uploaded {
+	border: 2px solid #4CAF50;
+	background-color: rgba(76, 175, 80, 0.1);
+	cursor: default;
+}
+
+.upload-area p {
+	margin: 0;
+	padding: 0;
+}
+
+.upload-area.file-uploaded p:first-child {
+	font-weight: bold;
+}
+
+.remove-button {
+	background-color: #f44336bd;
+	color: white;
+	border: none;
+	padding: 8px 16px;
+	border-radius: 5px;
+	cursor: pointer;
+}
+
+.model-selection {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.5rem;
+	width: 400px;
+}
+
+.model-select {
+	flex-grow: 1;
+	flex-basis: 1;
+	background-color: #e0e0e0;
+	border: 2px solid #d1d1d1;
+	border-radius: 0.5rem;
+	padding: 0.5rem 1rem;
+	font-size: 1rem;
+	cursor: pointer;
+	white-space: nowrap;
+}
+
+.model-select:hover {
+	background-color: #d1d1d1;
+	border: 2px solid #c2c2c2;
+}
+
+.model-select.selected {
+	background-color: #61a8ff;
+	border: 2px solid #3e95ff;
+}
