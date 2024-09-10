@@ -94,3 +94,8 @@
 	background-color: #ccc;
 	cursor: not-allowed;
 }
+
+.create-run-button.loading {
+	background-color: #61a8ffc4;
+	cursor: default;
+}

@@ -12,4 +12,4 @@ MONGO_DB = os.getenv("MONGO_DB")
 MONGO_URI_LOCAL = os.getenv("MONGO_URI_LOCAL")
 MONGO_DB_LOCAL = os.getenv("MONGO_DB_LOCAL")
 
-LOCAL = False
+LOCAL = True

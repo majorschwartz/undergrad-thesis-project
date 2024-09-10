@@ -6,26 +6,28 @@ import { parseCSV } from "../../utils/helpers";
 import { createRun } from "../../utils/api";
 
 const Onboard = () => {
-	const [fileData, setFileData] = useState(null);
-	const [questions, setQuestions] = useState([]);
-	const [answers, setAnswers] = useState([]);
 	const models = ["GPT-4o", "Claude 3.5 Sonnet", "Llama 3.1 405B", "Knowledge Graph"];
 	const [selectedModels, setSelectedModels] = useState([]);
+	const [questions, setQuestions] = useState([]);
+	const [answers, setAnswers] = useState([]);
+	const [isLoading, setIsLoading] = useState(false);
+	// const [error, setError] = useState(null);
 
 	const handleFileUpload = (data) => {
-		setFileData(data);
 		const { questions, answers } = parseCSV(data);
 		setQuestions(questions);
 		setAnswers(answers);
 	};
 
 	const handleCreateRun = async () => {
-		if (!createAllowed) {
-			console.log("Run creation not allowed. Please select a file and at least one model.");
+		if (!createAllowed || isLoading) {
+			console.log("Run creation not allowed or already loading. Please select a file and at least one model.");
 			return;
 		}
 		try {
+			setIsLoading(true);
 			const response = await createRun(selectedModels, questions, answers);
+			setIsLoading(false);
 			if (response.ok) {
 				console.log("Run created successfully");
 				// Handle successful run creation (e.g., show a success message, redirect to run page)
@@ -39,14 +41,14 @@ const Onboard = () => {
 		}
 	};
 
-	const createAllowed = fileData && selectedModels.length > 0;
+	const createAllowed = questions.length > 0 && selectedModels.length > 0;
 
 	return (
 		<div className="onboard">
 			<h1>Create a new run.</h1>
 			<FileUpload handleFileUpload={handleFileUpload} />
 			<ModelSelect models={models} selectedModels={selectedModels} setSelectedModels={setSelectedModels} />
-			<button className={`create-run-button ${createAllowed ? "allowed" : "disabled"}`} onClick={handleCreateRun}>Create Run</button>
+			<button className={`create-run-button ${isLoading ? "loading" : createAllowed ? "allowed" : "disabled"}`} onClick={handleCreateRun}>{isLoading ? "Loading..." : "Create Run"}</button>
 		</div>
 	);
 }
