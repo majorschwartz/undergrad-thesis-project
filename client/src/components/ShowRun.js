@@ -2,7 +2,7 @@ import "./main.css";
 import React from "react";
 import Sidebar from "./sidebar/Sidebar";
 
-const Main = () => {
+const ShowRun = () => {
 	return (
 		<div className="main">
 			<Sidebar />
@@ -10,4 +10,4 @@ const Main = () => {
 	);
 }
 
-export default Main;
+export default ShowRun;

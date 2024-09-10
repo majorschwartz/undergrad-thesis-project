@@ -5,20 +5,23 @@ from fastapi import (
     WebSocketDisconnect,
 )
 from fastapi.middleware.cors import CORSMiddleware
-from routes import runner
+from routes import create
+from routes import query
 from websocket.connection_manager import ws
+from config import ORIGIN_ENDPOINT
 
 app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware, 
-    allow_origins=["*"],
+    allow_origins=[ORIGIN_ENDPOINT],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-app.include_router(runner.router)
+app.include_router(create.router)
+app.include_router(query.router)
 
 @app.websocket("/ws")
 async def websocket_endpoint(websocket: WebSocket):

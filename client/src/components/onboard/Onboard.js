@@ -1,5 +1,6 @@
 import "./onboard.css";
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import FileUpload from "./FileUpload";
 import ModelSelect from "./ModelSelect";
 import { parseCSV } from "../../utils/helpers";
@@ -11,6 +12,7 @@ const Onboard = () => {
 	const [questions, setQuestions] = useState([]);
 	const [answers, setAnswers] = useState([]);
 	const [isLoading, setIsLoading] = useState(false);
+	const navigate = useNavigate();
 	// const [error, setError] = useState(null);
 
 	const handleFileUpload = (data) => {
@@ -28,9 +30,8 @@ const Onboard = () => {
 			setIsLoading(true);
 			const response = await createRun(selectedModels, questions, answers);
 			setIsLoading(false);
-			if (response.ok) {
-				console.log("Run created successfully");
-				// Handle successful run creation (e.g., show a success message, redirect to run page)
+			if (response !== null) {
+				navigate(`/run/${response.run_tag}`);
 			} else {
 				console.error("Failed to create run");
 				// Handle error (e.g., show error message to user)
