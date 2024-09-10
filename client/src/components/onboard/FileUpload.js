@@ -1,7 +1,7 @@
 import "./onboard.css";
 import React, { useState } from "react";
 
-const FileUpload = ({ fileData, setFileData }) => {
+const FileUpload = ({ handleFileUpload }) => {
     const [isDragging, setIsDragging] = useState(false);
     const [fileName, setFileName] = useState(null);
 
@@ -9,7 +9,7 @@ const FileUpload = ({ fileData, setFileData }) => {
         if (file) {
             const reader = new FileReader();
             reader.onload = (e) => {
-                setFileData(e.target.result);
+                handleFileUpload(e.target.result);
                 setFileName(file.name);
             };
             reader.readAsText(file);
@@ -38,6 +38,11 @@ const FileUpload = ({ fileData, setFileData }) => {
         document.getElementById("csv-file").click();
     }
 
+    const handleRemove = () => {
+        setFileName(null);
+        handleFileUpload(null);
+    }
+
     return (
         <div
             className={`upload-area ${isDragging ? 'dragging' : ''} ${fileName ? 'file-uploaded' : ''}`}
@@ -57,7 +62,7 @@ const FileUpload = ({ fileData, setFileData }) => {
                 <>
                     <p>File uploaded:</p>
                     <p>{fileName}</p>
-                    <button className="remove-button" onClick={() => {setFileName(null); setFileData(null);}}>Remove and select new file</button>
+                    <button className="remove-button" onClick={handleRemove}>Remove and select new file</button>
                 </>
             ) : (
                 <>

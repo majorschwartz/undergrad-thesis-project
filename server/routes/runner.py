@@ -11,4 +11,7 @@ class CreateRunRequest(BaseModel):
 
 @router.post("/create-run")
 async def create_run(request: CreateRunRequest):
-	pass
+	print(request.models)
+	print(request.prompts)
+	print(request.eval_answers)
+	return JSONResponse(status_code=200, content={"message": "Run created successfully"})
