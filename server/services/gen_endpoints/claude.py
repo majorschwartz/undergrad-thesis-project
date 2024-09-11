@@ -1,18 +1,20 @@
 import anthropic
-import os
+from config import ANTHROPIC_API_KEY, PROMPT_FORMAT
 
-async def generate_claude(prompt: str):
-	client = anthropic.Anthropic(api_key=os.getenv("ANTHROPIC_API_KEY"))
+client = anthropic.Anthropic(api_key=ANTHROPIC_API_KEY)
+
+class ClaudeThreadClient:
+	def do_chat_completion(self, prompt: str):
+		response = client.messages.create(
+			messages=[
+				{
+					"role": "user",
+					"content": PROMPT_FORMAT.format(question=prompt)
+				}
+			],
+			model="claude-3-sonnet-20240229",
+			max_tokens=100
+		)
+		return response.content[0].text
 	
-	response = await client.messages.create(
-		model="claude-3-sonnet-20240229",
-		max_tokens=100,
-		temperature=0,
-		messages=[
-			{
-				"role": "user",
-				"content": prompt
-			}
-		]
-	)
-	return response.content[0].text
+claude_thread_client = ClaudeThreadClient()

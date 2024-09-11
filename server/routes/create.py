@@ -4,6 +4,7 @@ from fastapi import APIRouter, HTTPException, Request
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 from database.database import runs_collection
+from services.runner import prompt_models
 
 router = APIRouter()
 
@@ -50,5 +51,7 @@ async def create_run(request: CreateRunRequest):
 	new_run["run_tag"] = run_count + 1
 
 	await runs_collection.insert_one(new_run)
+
+	asyncio.create_task(prompt_models(new_run["run_tag"], request.prompts, request.models, request.eval_answers))
 
 	return JSONResponse(content={"run_tag": new_run["run_tag"]}, status_code=200)

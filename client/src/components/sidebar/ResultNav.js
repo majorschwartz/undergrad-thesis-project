@@ -25,8 +25,8 @@ const ResultNav = () => {
         fetchRuns();
     }, []);
 
-    if (isLoading) return <div></div>;
-    if (error) return <div>{error}</div>;
+    if (isLoading) return <div className="run-list"></div>;
+    if (error) return <div className="run-list">{error}</div>;
 
     return (
         <div className="run-list">

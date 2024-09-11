@@ -1,21 +1,20 @@
 from openai import OpenAI
-from config import OPENAI_API_KEY, OPENAI_MODEL
+from config import OPENAI_API_KEY, PROMPT_FORMAT
 
-openaiClient = OpenAI(api_key=OPENAI_API_KEY)
-
+client = OpenAI(api_key=OPENAI_API_KEY)
 
 class OpenAIThreadClient:
-    def do_chat_completion(self, content, json=True):
-        return openaiClient.chat.completions.create(
+    def do_chat_completion(self, prompt: str):
+        response = client.chat.completions.create(
             messages=[
                 {
                     "role": "user",
-                    "content": content,
+                    "content": PROMPT_FORMAT.format(question=prompt),
                 }
             ],
-            model=OPENAI_MODEL,
-            response_format={"type": "json_object" if json else "text"},
+            model="gpt-4o",
+            max_tokens=100
         )
-
+        return response.choices[0].message.content
 
 openai_thread_client = OpenAIThreadClient()
