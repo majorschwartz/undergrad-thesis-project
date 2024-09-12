@@ -7,7 +7,7 @@ router = APIRouter()
 
 # Get a run by run_tag
 @router.get("/run/{run_tag}")
-async def get_run(run_tag: str):
+async def get_run(run_tag: int):
 	run = await runs_collection.find_one({"run_tag": run_tag})
 	if run is None:
 		raise HTTPException(status_code=404, detail="Run not found")

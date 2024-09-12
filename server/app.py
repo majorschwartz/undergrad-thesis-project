@@ -9,6 +9,7 @@ from routes import create
 from routes import query
 from websocket.connection_manager import ws
 from config import ORIGIN_ENDPOINT
+import asyncio
 
 app = FastAPI()
 
@@ -32,7 +33,7 @@ async def websocket_endpoint(websocket: WebSocket):
 			data = await websocket.receive_json()
 			print("Received data:", data)
 	except WebSocketDisconnect:
-		ws.disconnect(websocket)
+		await ws.disconnect(websocket)
 
 @app.get("/hello")
 async def hello():

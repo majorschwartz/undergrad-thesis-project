@@ -1,13 +1,17 @@
 const apiUrl = process.env.REACT_APP_API_ENDPOINT;
 
-export const createRun = async (selectedModels, questions, answers) => {
-    const models = {
-        "GPT-4o": "gpt-4o",
-        "Claude 3.5 Sonnet": "claude-3-sonnet-20240229",
-        "Llama 3.1 405B": "llama-3-1-405b",
-        "Knowledge Graph": "knowledge-graph",
-    };
+const models = {
+    "GPT-4o": "gpt-4o",
+    "Claude 3.5 Sonnet": "claude-3-sonnet-20240229",
+    "Llama 3.1 405B": "llama-3-1-405b",
+    "Knowledge Graph": "knowledge-graph",
+};
 
+export const modelNames = Object.fromEntries(
+    Object.entries(models).map(([key, value]) => [value, key])
+);
+
+export const createRun = async (selectedModels, questions, answers) => {
     const response = await fetch(`${apiUrl}/create-run`, {
         method: "POST",
         headers: {

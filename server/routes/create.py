@@ -1,5 +1,5 @@
 import asyncio
-import datetime
+import time
 from fastapi import APIRouter, HTTPException, Request
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel
@@ -17,7 +17,7 @@ class CreateRunRequest(BaseModel):
 async def create_run(request: CreateRunRequest):
 	new_run = {
 		"running": True,
-		"started_at": datetime.datetime.now(datetime.UTC),
+		"started_at": int(time.time() * 1000),
 		"finished_at": None,
 		"models": request.models,
 		"run_name": None,
