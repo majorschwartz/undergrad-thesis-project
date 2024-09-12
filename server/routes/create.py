@@ -1,10 +1,11 @@
 import asyncio
 import time
-from fastapi import APIRouter, HTTPException, Request
+from fastapi import APIRouter
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel
-from database.database import runs_collection
 from services.runner import prompt_models
+from database.dbpost import db_post_run
+from database.dbget import db_get_run_count
 
 router = APIRouter()
 
@@ -37,20 +38,20 @@ async def create_run(request: CreateRunRequest):
 			"responses": [],
 		})
 	
-	for model in request.models:
+	for _ in request.models:
 		for result in new_run["results"]:
 			result["responses"].append({
-				"model": model,
+				"status": "idle",
 				"response": "",
 				"evaluation": None,
 				"time_elapsed": 0,
 			})
 
-	run_count = await runs_collection.count_documents({})
+	run_count = await db_get_run_count()
 	new_run["run_name"] = f"Run #{run_count + 1}"
 	new_run["run_tag"] = run_count + 1
 
-	await runs_collection.insert_one(new_run)
+	await db_post_run(new_run)
 
 	asyncio.create_task(prompt_models(new_run["run_tag"], request.prompts, request.models, request.eval_answers))
 

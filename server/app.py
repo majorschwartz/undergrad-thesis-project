@@ -9,7 +9,6 @@ from routes import create
 from routes import query
 from websocket.connection_manager import ws
 from config import ORIGIN_ENDPOINT
-import asyncio
 
 app = FastAPI()
 
@@ -27,12 +26,14 @@ app.include_router(query.router)
 @app.websocket("/ws")
 async def websocket_endpoint(websocket: WebSocket):
 	await ws.connect(websocket)
-
 	try:
 		while True:
 			data = await websocket.receive_json()
 			print("Received data:", data)
 	except WebSocketDisconnect:
+		pass
+	finally:
+		print("Disconnecting websocket")
 		await ws.disconnect(websocket)
 
 @app.get("/hello")
