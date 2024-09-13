@@ -1,17 +1,27 @@
 import { useState, useEffect, useRef } from "react";
 import { getRun } from "utils/api";
+import { useNavigate } from "react-router-dom";
 
 const useRun = (run_tag) => {
 	const socketEndpoint = process.env.REACT_APP_SOCKET_ENDPOINT;
 	const [run, setRun] = useState(null);
 	const socketRef = useRef(null);
+	const navigate = useNavigate();
 
 	useEffect(() => {
 		const fetchRun = async () => {
-			const data = await getRun(run_tag);
-			setRun(data);
+			try {
+				const data = await getRun(run_tag);
+				if (data.detail === "Run not found") {
+					throw new Error("Run not found");
+				}
+				setRun(data);
+			} catch (error) {
+				console.error("Failed to fetch run:", error);
+				navigate("/");
+			}
 		};
-
+		
 		fetchRun();
 
 		const socket = new WebSocket(`${socketEndpoint}/ws`);
@@ -48,7 +58,7 @@ const useRun = (run_tag) => {
 				socketRef.current = null;
 			}
 		};
-	}, [run_tag, socketEndpoint]);
+	}, [run_tag, socketEndpoint, navigate]);
 
 	return { run };
 };

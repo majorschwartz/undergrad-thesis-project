@@ -31,7 +31,7 @@ class EvalClient:
                     "content": prompt,
                 }
             ],
-            model="gpt-4o",
+            model="gpt-4o-mini",
             response_format={ "type": "json_object" }
         )
         return json.loads(response.choices[0].message.content)["eval"]
