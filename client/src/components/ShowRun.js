@@ -4,6 +4,7 @@ import Sidebar from "./sidebar/Sidebar";
 import Topbar from "./topbar/Topbar";
 import { useParams } from "react-router-dom";
 import useRun from "../hooks/useRun";
+import Feed from "./feed/Feed";
 
 const ShowRun = () => {
     const { run_tag } = useParams();
@@ -14,15 +15,16 @@ const ShowRun = () => {
             <Sidebar />
             <div className="run-display">
                 {run && (
-					<>
-						<Topbar 
-							run_name={run.run_name} 
-							start_time={run.started_at} 
-							running={run.running} 
-							selectedModels={run.models || []}
-						/>
-					</>
-				)}
+                    <>
+                        <Topbar 
+                            run_name={run.run_name} 
+                            start_time={run.started_at} 
+                            running={run.running} 
+                            selectedModels={run.models || []}
+                        />
+                        <Feed run={run} />
+                    </>
+                )}
             </div>
         </div>
     );

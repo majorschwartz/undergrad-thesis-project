@@ -1,9 +1,9 @@
 import React from "react";
 
-const Results = ({ state }) => {
+const Results = () => {
 	return (
 		<div>
-			This is {state.name}
+			
 		</div>
 	);
 }

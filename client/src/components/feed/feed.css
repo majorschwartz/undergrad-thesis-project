@@ -1,6 +1,64 @@
 .feed {
 	width: 100%;
-	flex-grow: 1;
+	padding: 20px;
+	overflow-x: auto;
+}
+
+.feed-item {
+	border-bottom: 1px solid #ccc;
+	padding: 10px 0;
+}
+
+.responses {
 	display: flex;
-	flex-direction: column;
+	flex-wrap: wrap;
+	gap: 10px;
+}
+
+.response {
+	background-color: #f9f9f9;
+	padding: 10px;
+	border-radius: 5px;
+	flex: 1 1 45%;
+}
+
+.feed-table {
+	width: 100%;
+	border-collapse: collapse;
+}
+
+.feed-table th,
+.feed-table td {
+	border: 1px solid #ccc;
+	padding: 8px;
+	text-align: left;
+	vertical-align: top;
+}
+
+.feed-table th {
+	background-color: #f2f2f2;
+}
+
+.feed-table th.model-header {
+	text-align: center;
+}
+
+.feed-table th.sub-header {
+	background-color: #e6e6e6;
+}
+
+.feed-table tr:nth-child(even) {
+	background-color: #fafafa;
+}
+
+.feed-table tr:hover {
+	background-color: #f1f1f1;
+}
+
+@media (max-width: 768px) {
+	.feed-table th,
+	.feed-table td {
+		padding: 6px;
+		font-size: 14px;
+	}
 }
