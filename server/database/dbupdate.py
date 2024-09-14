@@ -46,3 +46,13 @@ async def db_set_run_finished(run_tag: int, finished_time: int):
 			}
 		}
 	)
+
+# Run Name Updates
+
+async def db_set_run_name(run_tag: int, name: str):
+	await runs_collection.update_one(
+		{"run_tag": run_tag},
+		{
+			"$set": {"run_name": name}
+		}
+	)

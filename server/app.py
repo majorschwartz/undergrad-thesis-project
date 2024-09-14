@@ -7,6 +7,7 @@ from fastapi import (
 from fastapi.middleware.cors import CORSMiddleware
 from routes import create
 from routes import query
+from routes import edit
 from websocket.connection_manager import ws
 from config import ORIGIN_ENDPOINT
 
@@ -22,6 +23,7 @@ app.add_middleware(
 
 app.include_router(create.router)
 app.include_router(query.router)
+app.include_router(edit.router)
 
 @app.websocket("/ws")
 async def websocket_endpoint(websocket: WebSocket):

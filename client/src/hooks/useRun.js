@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { getRun } from "utils/api";
+import { getRun, editRunName } from "utils/api";
 import { useNavigate } from "react-router-dom";
 
 const useRun = (run_tag) => {
@@ -21,7 +21,7 @@ const useRun = (run_tag) => {
 				navigate("/");
 			}
 		};
-		
+
 		fetchRun();
 
 		const socket = new WebSocket(`${socketEndpoint}/ws`);
@@ -37,19 +37,28 @@ const useRun = (run_tag) => {
 				case "set_result_response":
 					setRun((prevRun) => {
 						if (!prevRun) return prevRun;
-						const { q_index, m_index, response, elapsed } = message.data;
-						const updatedResults = prevRun.results.map((result, qIdx) => {
-							if (qIdx !== q_index) return result;
-							const updatedResponses = result.responses.map((resp, mIdx) => {
-								if (mIdx !== m_index) return resp;
+						const { q_index, m_index, response, elapsed } =
+							message.data;
+						const updatedResults = prevRun.results.map(
+							(result, qIdx) => {
+								if (qIdx !== q_index) return result;
+								const updatedResponses = result.responses.map(
+									(resp, mIdx) => {
+										if (mIdx !== m_index) return resp;
+										return {
+											...resp,
+											status: "complete",
+											response,
+											time_elapsed: elapsed,
+										};
+									}
+								);
 								return {
-									...resp,
-									response,
-									time_elapsed: elapsed,
+									...result,
+									responses: updatedResponses,
 								};
-							});
-							return { ...result, responses: updatedResponses };
-						});
+							}
+						);
 						return { ...prevRun, results: updatedResults };
 					});
 					break;
@@ -57,17 +66,24 @@ const useRun = (run_tag) => {
 					setRun((prevRun) => {
 						if (!prevRun) return prevRun;
 						const { q_index, m_index, evaluation } = message.data;
-						const updatedResults = prevRun.results.map((result, qIdx) => {
-							if (qIdx !== q_index) return result;
-							const updatedResponses = result.responses.map((resp, mIdx) => {
-								if (mIdx !== m_index) return resp;
+						const updatedResults = prevRun.results.map(
+							(result, qIdx) => {
+								if (qIdx !== q_index) return result;
+								const updatedResponses = result.responses.map(
+									(resp, mIdx) => {
+										if (mIdx !== m_index) return resp;
+										return {
+											...resp,
+											evaluation,
+										};
+									}
+								);
 								return {
-									...resp,
-									evaluation,
+									...result,
+									responses: updatedResponses,
 								};
-							});
-							return { ...result, responses: updatedResponses };
-						});
+							}
+						);
 						return { ...prevRun, results: updatedResults };
 					});
 					break;
@@ -75,24 +91,35 @@ const useRun = (run_tag) => {
 					setRun((prevRun) => {
 						if (!prevRun) return prevRun;
 						const { q_index, m_index, status } = message.data;
-						const updatedResults = prevRun.results.map((result, qIdx) => {
-							if (qIdx !== q_index) return result;
-							const updatedResponses = result.responses.map((resp, mIdx) => {
-								if (mIdx !== m_index) return resp;
+						const updatedResults = prevRun.results.map(
+							(result, qIdx) => {
+								if (qIdx !== q_index) return result;
+								const updatedResponses = result.responses.map(
+									(resp, mIdx) => {
+										if (mIdx !== m_index) return resp;
+										return {
+											...resp,
+											status,
+										};
+									}
+								);
 								return {
-									...resp,
-									status,
+									...result,
+									responses: updatedResponses,
 								};
-							});
-							return { ...result, responses: updatedResponses };
-						});
+							}
+						);
 						return { ...prevRun, results: updatedResults };
 					});
 					break;
 				case "set_run_finished":
 					setRun((prevRun) => {
 						if (!prevRun) return prevRun;
-						return { ...prevRun, running: false, finished_at: message.data.finished_time };
+						return {
+							...prevRun,
+							running: false,
+							finished_at: message.data.finished_time,
+						};
 					});
 					break;
 				default:
@@ -118,7 +145,18 @@ const useRun = (run_tag) => {
 		};
 	}, [run_tag, socketEndpoint, navigate]);
 
-	return { run };
+	const setRunName = async (new_name) => {
+		if (run) {
+			try {
+				await editRunName(run_tag, new_name);
+				setRun((prevRun) => ({ ...prevRun, run_name: new_name }));
+			} catch (error) {
+				console.error("Failed to update run name:", error);
+			}
+		}
+	};
+
+	return { run, setRunName };
 };
 
 export default useRun;

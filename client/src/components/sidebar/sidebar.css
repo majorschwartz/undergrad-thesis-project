@@ -1,6 +1,6 @@
 .sidebar {
 	width: 10rem;
-	height: 100dvh;
+	min-height: 100dvh;
 	display: flex;
 	overflow: hidden;
 	flex-grow: 0;
@@ -30,6 +30,8 @@
 	background-color: rgb(200, 200, 200);
 	cursor: pointer;
 	text-align: left;
+	overflow: hidden; /* Add this line */
+	white-space: nowrap; /* Add this line */
 }
 
 .sidebar-btn.active {
@@ -42,4 +44,11 @@
 
 .new-run-btn {
 	text-align: center;
+}
+
+.run-name {
+	display: block; /* Add this block */
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 }

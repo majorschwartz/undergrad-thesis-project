@@ -44,3 +44,19 @@ export const getRun = async (run_tag) => {
     const data = await response.json();
     return data;
 };
+
+export const editRunName = async (run_tag, new_name) => {
+    const response = await fetch(`${apiUrl}/edit-run-name`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ run_tag: parseInt(run_tag, 10), new_name }),
+    });
+    if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.detail || "Failed to update run name");
+    }
+    const data = await response.json();
+    return data;
+};

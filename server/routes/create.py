@@ -33,17 +33,16 @@ async def create_run(request: CreateRunRequest):
 			"eval_answer": request.eval_answers[i],
 		})
 	
-	for question in new_run["questions"]:
+	for i, question in enumerate(new_run["questions"]):
 		new_run["results"].append({
 			"responses": [],
 		})
 	
-	for _ in request.models:
-		for result in new_run["results"]:
-			result["responses"].append({
+		for _ in request.models:
+			new_run["results"][i]["responses"].append({
 				"status": "idle",
 				"response": "",
-				"evaluation": None,
+				"evaluation": "pending" if question["eval_answer"] is not None else None,
 				"time_elapsed": 0,
 			})
 

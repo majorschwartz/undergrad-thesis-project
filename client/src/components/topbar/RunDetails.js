@@ -29,8 +29,14 @@ const RunDetails = ({ start_time, end_time, running }) => {
 
 	return (
 		<div className="run-details">
-			<div>{running ? "Running" : "Finished"}</div>
-			<div>Elapsed Time: {formatTime(elapsedTime)}</div>
+			<div className="details running">
+				<button className={`running-btn ${running ? "running" : "finished"}`} />
+				<div className="running-text">{running ? "Running" : "Finished"}</div>
+			</div>
+			<div className="details elapsed">
+				<div className="elapsed-text">Elapsed Time:</div>
+				<div className="elapsed-time">{formatTime(elapsedTime)}</div>
+			</div>
 		</div>
 	);
 };

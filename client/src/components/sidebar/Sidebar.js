@@ -3,11 +3,11 @@ import "./sidebar.css";
 import StartNew from "./StartNew";
 import ResultNav from "./ResultNav";
 
-const Sidebar = () => {
+const Sidebar = ({ triggerRefetch }) => {
 	return (
 		<div className="sidebar">
 			<StartNew />
-			<ResultNav />
+			<ResultNav triggerRefetch={triggerRefetch} />
 		</div>
 	);
 }
