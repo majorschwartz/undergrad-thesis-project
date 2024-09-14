@@ -35,15 +35,15 @@ async def prompt_models(run_tag, prompts, models, eval_answers):
             f"\nAll tasks completed for question {q_index+1} of {len(prompts)} questions in run {run_tag}\n"
         )
     print(f"All questions completed for run {run_tag}\n")
-    await ws_set_run_finished(run_tag, time.time())
-    await db_set_run_finished(run_tag, time.time())
+    await ws_set_run_finished(run_tag, int(time.time() * 1000))
+    await db_set_run_finished(run_tag, int(time.time() * 1000))
 
 
 async def prompt_and_post(model, question, eval_answer, q_index, m_index, run_tag):
     await ws_set_result_status(run_tag, q_index, m_index, "in_progress")
     await db_set_result_status(run_tag, q_index, m_index, "in_progress")
 
-    elapsed = time.time()
+    elapsed = int(time.time() * 1000)
     if model == "claude-3-sonnet-20240229":
         response = await run_in_threadpool(
             claude_thread_client.do_chat_completion, question
@@ -64,7 +64,7 @@ async def prompt_and_post(model, question, eval_answer, q_index, m_index, run_ta
     else:
         raise ValueError(f"Invalid model: {model}")
 
-    elapsed = time.time() - elapsed
+    elapsed = int(time.time() * 1000) - elapsed
 
     await ws_set_result_response(run_tag, q_index, m_index, response, elapsed)
     await db_set_result_response(run_tag, q_index, m_index, response, elapsed)

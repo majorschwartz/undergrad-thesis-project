@@ -34,8 +34,66 @@ const useRun = (run_tag) => {
 		socket.onmessage = (event) => {
 			const message = JSON.parse(event.data);
 			switch (message.type) {
-				case "completion":
-					console.log("Completion message received:", message.data);
+				case "set_result_response":
+					setRun((prevRun) => {
+						if (!prevRun) return prevRun;
+						const { q_index, m_index, response, elapsed } = message.data;
+						const updatedResults = prevRun.results.map((result, qIdx) => {
+							if (qIdx !== q_index) return result;
+							const updatedResponses = result.responses.map((resp, mIdx) => {
+								if (mIdx !== m_index) return resp;
+								return {
+									...resp,
+									response,
+									time_elapsed: elapsed,
+								};
+							});
+							return { ...result, responses: updatedResponses };
+						});
+						return { ...prevRun, results: updatedResults };
+					});
+					break;
+				case "set_result_evaluation":
+					setRun((prevRun) => {
+						if (!prevRun) return prevRun;
+						const { q_index, m_index, evaluation } = message.data;
+						const updatedResults = prevRun.results.map((result, qIdx) => {
+							if (qIdx !== q_index) return result;
+							const updatedResponses = result.responses.map((resp, mIdx) => {
+								if (mIdx !== m_index) return resp;
+								return {
+									...resp,
+									evaluation,
+								};
+							});
+							return { ...result, responses: updatedResponses };
+						});
+						return { ...prevRun, results: updatedResults };
+					});
+					break;
+				case "set_result_status":
+					setRun((prevRun) => {
+						if (!prevRun) return prevRun;
+						const { q_index, m_index, status } = message.data;
+						const updatedResults = prevRun.results.map((result, qIdx) => {
+							if (qIdx !== q_index) return result;
+							const updatedResponses = result.responses.map((resp, mIdx) => {
+								if (mIdx !== m_index) return resp;
+								return {
+									...resp,
+									status,
+								};
+							});
+							return { ...result, responses: updatedResponses };
+						});
+						return { ...prevRun, results: updatedResults };
+					});
+					break;
+				case "set_run_finished":
+					setRun((prevRun) => {
+						if (!prevRun) return prevRun;
+						return { ...prevRun, running: false, finished_at: message.data.finished_time };
+					});
 					break;
 				default:
 					console.log("Unknown message type:", message.type);
@@ -54,7 +112,7 @@ const useRun = (run_tag) => {
 
 		return () => {
 			if (socketRef.current) {
-                socketRef.current.close();
+				socketRef.current.close();
 				socketRef.current = null;
 			}
 		};

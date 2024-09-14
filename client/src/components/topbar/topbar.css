@@ -1,0 +1,52 @@
+.topbar {
+	display: flex;
+	flex-direction: column;
+}
+
+.bar {
+	display: flex;
+	flex-direction: row;
+	padding: 0.5rem;
+}
+
+.bar.first {
+	gap: 2rem;
+}
+
+/* Name Entry */
+.name-entry {
+	display: flex;
+	flex-direction: row;
+	gap: 0.5rem;
+}
+
+.name-entry input {
+	width: 100px;
+	height: 2rem;
+	padding: 0.5rem;
+	background-color: rgb(210, 210, 210);
+	border: none;
+	border-radius: 0.5rem;
+}
+
+.name-entry button {
+	width: 2rem;
+	height: 2rem;
+	padding: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background-color: rgb(185, 185, 185);
+	border: none;
+	border-radius: 0.5rem;
+	cursor: pointer;
+}
+
+.name-entry button:hover {
+	background-color: rgb(160, 160, 160);
+}
+
+.name-entry button svg {
+	width: 1.5rem;
+	height: 1.5rem;
+}

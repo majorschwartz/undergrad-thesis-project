@@ -16,10 +16,11 @@ const ShowRun = () => {
             <div className="run-display">
                 {run && (
                     <>
-                        <Topbar 
-                            run_name={run.run_name} 
-                            start_time={run.started_at} 
-                            running={run.running} 
+                        <Topbar
+                            run_name={run.run_name}
+                            start_time={run.started_at}
+                            end_time={run.finished_at}
+                            running={run.running}
                             selectedModels={run.models || []}
                         />
                         <Feed run={run} />
