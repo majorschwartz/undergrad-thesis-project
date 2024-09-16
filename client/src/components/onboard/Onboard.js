@@ -7,7 +7,7 @@ import { parseCSV } from "../../utils/helpers";
 import { createRun } from "../../utils/api";
 
 const Onboard = () => {
-	const models = ["GPT-4o", "Claude 3.5 Sonnet", "Llama 3.1 405B", "Knowledge Graph"];
+	const models = ["GPT-4o", "Claude 3.5 Sonnet", "Llama 3.1 8B (Local)", "Knowledge Graph"];
 	const [selectedModels, setSelectedModels] = useState([]);
 	const [questions, setQuestions] = useState([]);
 	const [answers, setAnswers] = useState([]);

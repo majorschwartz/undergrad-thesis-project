@@ -3,7 +3,7 @@ const apiUrl = process.env.REACT_APP_API_ENDPOINT;
 const models = {
     "GPT-4o": "gpt-4o",
     "Claude 3.5 Sonnet": "claude-3-sonnet-20240229",
-    "Llama 3.1 405B": "llama-3-1-405b",
+    "Llama 3.1 8B (Local)": "llama-3-1-8b",
     "Knowledge Graph": "knowledge-graph",
 };
 
