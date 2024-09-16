@@ -25,6 +25,7 @@ const ShowRun = () => {
                         <Topbar
                             run_name={run.run_name}
                             setRunName={handleSetRunName}
+                            run_tag={run_tag}
                             start_time={run.started_at}
                             end_time={run.finished_at}
                             running={run.running}

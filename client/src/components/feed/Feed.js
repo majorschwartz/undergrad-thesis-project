@@ -29,7 +29,7 @@ const Feed = ({ run }) => {
 						</div>
 						<div className="sub-header">
 							<div>Time</div>
-							<div>Eval</div>
+							<div>Evaluation</div>
 						</div>
 					</div>
 				))}

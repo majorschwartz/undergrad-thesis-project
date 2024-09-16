@@ -60,3 +60,16 @@ export const editRunName = async (run_tag, new_name) => {
     const data = await response.json();
     return data;
 };
+
+export const downloadResults = async (run_tag) => {
+    const response = await fetch(`${apiUrl}/download/${run_tag}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'text/csv',
+        },
+    });
+    if (!response.ok) {
+        throw new Error('Failed to download results');
+    }
+    return await response.text();
+};

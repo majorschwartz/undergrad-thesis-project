@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
+import Download from "./Download";
 
-const RunDetails = ({ start_time, end_time, running }) => {
+const RunDetails = ({ run_tag, start_time, end_time, running }) => {
 	const [elapsedTime, setElapsedTime] = useState(0);
 
 	useEffect(() => {
@@ -37,6 +38,7 @@ const RunDetails = ({ start_time, end_time, running }) => {
 				<div className="elapsed-text">Elapsed Time:</div>
 				<div className="elapsed-time">{formatTime(elapsedTime)}</div>
 			</div>
+			<Download run_tag={run_tag} running={running} />
 		</div>
 	);
 };
