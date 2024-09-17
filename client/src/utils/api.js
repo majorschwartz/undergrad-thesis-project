@@ -48,8 +48,8 @@ export const getRuns = async () => {
     return data;
 };
 
-export const getRun = async (run_tag) => {
-    const response = await fetch(`${apiUrl}/run/${run_tag}`, {
+export const getRun = async (run_id) => {
+    const response = await fetch(`${apiUrl}/run/${run_id}`, {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
@@ -75,8 +75,8 @@ export const editRunName = async (run_id, new_name) => {
     return data;
 };
 
-export const downloadResults = async (run_tag) => {
-    const response = await fetch(`${apiUrl}/download/${run_tag}`, {
+export const downloadResults = async (run_id) => {
+    const response = await fetch(`${apiUrl}/download/${run_id}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'text/csv',

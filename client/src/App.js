@@ -9,7 +9,7 @@ function App() {
             <Router>
                 <Routes>
                     <Route path="/" element={<CreateRun />} />
-                    <Route path="/run/:run_tag" element={<ShowRun />} />
+                    <Route path="/run/:run_id" element={<ShowRun />} />
                 </Routes>
             </Router>
         </div>

@@ -6,9 +6,9 @@ from io import StringIO
 
 router = APIRouter()
 
-@router.get("/download/{run_tag}")
-async def download_results(run_tag: int):
-    run = await db_get_run(run_tag)
+@router.get("/download/{run_id}")
+async def download_results(run_id: str):
+    run = await db_get_run(run_id)
     if run is None:
         raise HTTPException(status_code=404, detail="Run not found")
 
@@ -35,6 +35,6 @@ async def download_results(run_tag: int):
         content=csv_buffer.getvalue(),
         media_type="text/csv",
         headers={
-            "Content-Disposition": f"attachment; filename=run_{run_tag}_results.csv"
+            "Content-Disposition": f"attachment; filename=run_results.csv"
         }
     )

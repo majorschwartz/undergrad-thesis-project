@@ -5,7 +5,7 @@ from utils.helpers import convertObjectIds
 
 router = APIRouter()
 
-# Get a run by run_tag
+# Get a run by run_id
 @router.get("/run/{run_id}")
 async def get_run(run_id: str):
 	run = await db_get_run(run_id)

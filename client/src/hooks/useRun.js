@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { getRun, editRunName } from "utils/api";
 import { useNavigate } from "react-router-dom";
 
-const useRun = (run_tag) => {
+const useRun = (run_id) => {
 	const socketEndpoint = process.env.REACT_APP_SOCKET_ENDPOINT;
 	const [run, setRun] = useState(null);
 	const socketRef = useRef(null);
@@ -11,7 +11,7 @@ const useRun = (run_tag) => {
 	useEffect(() => {
 		const fetchRun = async () => {
 			try {
-				const data = await getRun(run_tag);
+				const data = await getRun(run_id);
 				if (data.detail === "Run not found") {
 					throw new Error("Run not found");
 				}
@@ -146,7 +146,7 @@ const useRun = (run_tag) => {
 				socketRef.current = null;
 			}
 		};
-	}, [run_tag, socketEndpoint, navigate]);
+	}, [run_id, socketEndpoint, navigate]);
 
 	const setRunName = async (new_name) => {
 		if (run) {

@@ -38,9 +38,9 @@ const ResultNav = ({ triggerRefetch }) => {
                             navigate(`/run/${run._id}`);
                         }}
                         className={`sidebar-btn run-nav-button${
-                            run._id === run_id ? ' active' : ''
+                            run._id.toString() === run_id ? ' active' : ' not-active'
                         }`}
-                        title={run.run_name} // Add this line
+                        title={run.run_name}
                     >
                         <span className="run-name">{run.run_name}</span>
                     </button>

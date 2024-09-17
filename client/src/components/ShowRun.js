@@ -7,9 +7,9 @@ import useRun from "../hooks/useRun";
 import Feed from "./feed/Feed";
 
 const ShowRun = () => {
-    const { run_tag } = useParams();
+    const { run_id } = useParams();
     const [triggerRefetch, setTriggerRefetch] = useState(0);
-    const { run, setRunName } = useRun(run_tag);
+    const { run, setRunName } = useRun(run_id);
 
     const handleSetRunName = async (newName) => {
         await setRunName(newName);
@@ -29,7 +29,7 @@ const ShowRun = () => {
                         <Topbar
                             run_name={run.run_name}
                             setRunName={handleSetRunName}
-                            run_tag={run_tag}
+                            run_id={run_id}
                             start_time={run.started_at}
                             end_time={run.finished_at}
                             running={run.running}

@@ -1,16 +1,16 @@
 import React from "react";
 import { downloadResults } from "utils/api";
 
-const Download = ({ run_tag, running }) => {
+const Download = ({ run_id, running }) => {
 	const handleDownload = async () => {
 		try {
-			const csvData = await downloadResults(run_tag);
+			const csvData = await downloadResults(run_id);
 			const blob = new Blob([csvData], { type: "text/csv" });
 			const url = window.URL.createObjectURL(blob);
 			const a = document.createElement("a");
 			a.style.display = "none";
 			a.href = url;
-			a.download = `run_${run_tag}_results.csv`;
+			a.download = `run_results.csv`;
 			document.body.appendChild(a);
 			a.click();
 			window.URL.revokeObjectURL(url);
