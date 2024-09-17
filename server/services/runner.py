@@ -1,6 +1,7 @@
 from services.gen_endpoints.oai import openai_thread_client
 from services.gen_endpoints.claude import claude_thread_client
 from services.gen_endpoints.local import llama_thread_client
+from services.gen_endpoints.kg import kg_thread_client
 from services.evaluate import eval_client
 from websocket.socketpost import (
     ws_set_result_response,
@@ -53,13 +54,10 @@ async def prompt_and_post(model, question, eval_answer, q_index, m_index, run_ta
         response = await run_in_threadpool(
             openai_thread_client.do_chat_completion, question
         )
-    # TODO: Implement Llama 3.1 and Knowledge Graph
     elif model == "llama-3-1-8b":
         response = await llama_thread_client.do_chat_completion(question)
     elif model == "knowledge-graph":
-        # response = await run_in_threadpool(knowledge_graph_client.do_chat_completion, question)
-        print("\nKnowledge Graph not implemented yet\n")
-        response = "Not implemented yet"
+        response = await kg_thread_client.do_chat_completion(question)
     else:
         raise ValueError(f"Invalid model: {model}")
 
