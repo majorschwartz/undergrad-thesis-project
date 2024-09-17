@@ -3,7 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { getRuns } from "utils/api";
 
 const ResultNav = ({ triggerRefetch }) => {
-    const { run_tag } = useParams();
+    const { run_id } = useParams();
     const [runs, setRuns] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -33,12 +33,12 @@ const ResultNav = ({ triggerRefetch }) => {
             {runs.length > 0 ? (
                 runs.map((run) => (
                     <button
-                        key={run.run_tag}
+                        key={run._id}
                         onClick={() => {
-                            navigate(`/run/${run.run_tag}`);
+                            navigate(`/run/${run._id}`);
                         }}
                         className={`sidebar-btn run-nav-button${
-                            parseInt(run.run_tag) === parseInt(run_tag) ? ' active' : ''
+                            run._id === run_id ? ' active' : ''
                         }`}
                         title={run.run_name} // Add this line
                     >

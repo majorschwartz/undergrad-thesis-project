@@ -31,7 +31,7 @@ const Onboard = () => {
 			const response = await createRun(selectedModels, questions, answers);
 			setIsLoading(false);
 			if (response !== null) {
-				navigate(`/run/${response.run_tag}`);
+				navigate(`/run/${response.run_id}`);
 			} else {
 				console.error("Failed to create run");
 				// Handle error (e.g., show error message to user)

@@ -20,7 +20,7 @@ import asyncio
 import time
 
 
-async def prompt_models(run_tag, prompts, models, eval_answers):
+async def prompt_models(run_id, prompts, models, eval_answers):
     await asyncio.sleep(1)
     for q_index in range(len(prompts)):
         tasks = []
@@ -29,21 +29,21 @@ async def prompt_models(run_tag, prompts, models, eval_answers):
             model = models[m_index]
             eval_answer = eval_answers[q_index]
             task = asyncio.create_task(
-                prompt_and_post(model, question, eval_answer, q_index, m_index, run_tag)
+                prompt_and_post(model, question, eval_answer, q_index, m_index, run_id)
             )
             tasks.append(task)
         await asyncio.gather(*tasks)
         print(
-            f"\nAll tasks completed for question {q_index+1} of {len(prompts)} questions in run {run_tag}\n"
+            f"\nAll tasks completed for question {q_index+1} of {len(prompts)} questions in run {run_id}\n"
         )
-    print(f"All questions completed for run {run_tag}\n")
-    await ws_set_run_finished(run_tag, int(time.time() * 1000))
-    await db_set_run_finished(run_tag, int(time.time() * 1000))
+    print(f"All questions completed for run {run_id}\n")
+    await ws_set_run_finished(run_id, int(time.time() * 1000))
+    await db_set_run_finished(run_id, int(time.time() * 1000))
 
 
-async def prompt_and_post(model, question, eval_answer, q_index, m_index, run_tag):
-    await ws_set_result_status(run_tag, q_index, m_index, "in_progress")
-    await db_set_result_status(run_tag, q_index, m_index, "in_progress")
+async def prompt_and_post(model, question, eval_answer, q_index, m_index, run_id):
+    await ws_set_result_status(run_id, q_index, m_index, "in_progress")
+    await db_set_result_status(run_id, q_index, m_index, "in_progress")
 
     elapsed = int(time.time() * 1000)
     if model == "claude-3-sonnet-20240229":
@@ -63,12 +63,12 @@ async def prompt_and_post(model, question, eval_answer, q_index, m_index, run_ta
 
     elapsed = int(time.time() * 1000) - elapsed
 
-    await ws_set_result_response(run_tag, q_index, m_index, response, elapsed)
-    await db_set_result_response(run_tag, q_index, m_index, response, elapsed)
+    await ws_set_result_response(run_id, q_index, m_index, response, elapsed)
+    await db_set_result_response(run_id, q_index, m_index, response, elapsed)
 
     if eval_answer is not None:
         evaluation = await run_in_threadpool(
             eval_client.do_eval, question, eval_answer, response
         )
-        await ws_set_result_evaluation(run_tag, q_index, m_index, evaluation)
-        await db_set_result_evaluation(run_tag, q_index, m_index, evaluation)
+        await ws_set_result_evaluation(run_id, q_index, m_index, evaluation)
+        await db_set_result_evaluation(run_id, q_index, m_index, evaluation)

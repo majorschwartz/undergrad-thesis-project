@@ -6,6 +6,7 @@ from pydantic import BaseModel
 from services.runner import prompt_models
 from database.dbpost import db_post_run
 from database.dbget import db_get_run_count
+from utils.helpers import convertObjectIds
 
 router = APIRouter()
 
@@ -18,11 +19,10 @@ class CreateRunRequest(BaseModel):
 async def create_run(request: CreateRunRequest):
 	new_run = {
 		"running": True,
+		"run_name": None,
+		"models": request.models,
 		"started_at": int(time.time() * 1000),
 		"finished_at": None,
-		"models": request.models,
-		"run_name": None,
-		"run_tag": None,
 		"questions": [],
 		"results": [],
 	}
@@ -48,10 +48,9 @@ async def create_run(request: CreateRunRequest):
 
 	run_count = await db_get_run_count()
 	new_run["run_name"] = f"Run #{run_count + 1}"
-	new_run["run_tag"] = run_count + 1
 
-	await db_post_run(new_run)
+	run_id = await db_post_run(new_run)
 
-	asyncio.create_task(prompt_models(new_run["run_tag"], request.prompts, request.models, request.eval_answers))
+	asyncio.create_task(prompt_models(run_id, request.prompts, request.models, request.eval_answers))
 
-	return JSONResponse(content={"run_tag": new_run["run_tag"]}, status_code=200)
+	return JSONResponse(content={"run_id": run_id}, status_code=200)
