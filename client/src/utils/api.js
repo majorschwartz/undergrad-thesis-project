@@ -23,6 +23,20 @@ export const createRun = async (selectedModels, questions, answers) => {
     return data;
 };
 
+export const deleteAllRuns = async () => {
+    const response = await fetch(`${apiUrl}/delete-all-runs`, {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json",
+        },
+    });
+    if (!response.ok) {
+        throw new Error('Failed to delete all runs');
+    }
+    const data = await response.json();
+    return data;
+};
+
 export const getRuns = async () => {
     const response = await fetch(`${apiUrl}/runs`, {
         method: "GET",
@@ -45,13 +59,13 @@ export const getRun = async (run_tag) => {
     return data;
 };
 
-export const editRunName = async (run_tag, new_name) => {
+export const editRunName = async (run_id, new_name) => {
     const response = await fetch(`${apiUrl}/edit-run-name`, {
         method: "PUT",
         headers: {
             "Content-Type": "application/json",
         },
-        body: JSON.stringify({ run_tag: parseInt(run_tag, 10), new_name }),
+        body: JSON.stringify({ run_id, new_name }),
     });
     if (!response.ok) {
         const errorData = await response.json();

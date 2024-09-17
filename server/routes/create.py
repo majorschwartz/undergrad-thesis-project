@@ -6,7 +6,6 @@ from pydantic import BaseModel
 from services.runner import prompt_models
 from database.dbpost import db_post_run
 from database.dbget import db_get_run_count
-from utils.helpers import convertObjectIds
 
 router = APIRouter()
 
@@ -19,7 +18,7 @@ class CreateRunRequest(BaseModel):
 async def create_run(request: CreateRunRequest):
 	new_run = {
 		"running": True,
-		"run_name": None,
+		"run_name": "Untitled Run",
 		"models": request.models,
 		"started_at": int(time.time() * 1000),
 		"finished_at": None,
@@ -46,8 +45,8 @@ async def create_run(request: CreateRunRequest):
 				"time_elapsed": 0,
 			})
 
-	run_count = await db_get_run_count()
-	new_run["run_name"] = f"Run #{run_count + 1}"
+	# run_count = await db_get_run_count()
+	# new_run["run_name"] = f"Run #{run_count + 1}"
 
 	run_id = await db_post_run(new_run)
 

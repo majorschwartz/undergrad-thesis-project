@@ -34,6 +34,9 @@ const useRun = (run_tag) => {
 		socket.onmessage = (event) => {
 			const message = JSON.parse(event.data);
 			switch (message.type) {
+				case "connection":
+					console.log("Connection message received:", message.data);
+					break;
 				case "set_result_response":
 					setRun((prevRun) => {
 						if (!prevRun) return prevRun;
@@ -148,7 +151,7 @@ const useRun = (run_tag) => {
 	const setRunName = async (new_name) => {
 		if (run) {
 			try {
-				await editRunName(run_tag, new_name);
+				await editRunName(run._id, new_name);
 				setRun((prevRun) => ({ ...prevRun, run_name: new_name }));
 			} catch (error) {
 				console.error("Failed to update run name:", error);

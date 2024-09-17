@@ -13,12 +13,16 @@ const ShowRun = () => {
 
     const handleSetRunName = async (newName) => {
         await setRunName(newName);
+        handleTriggerRefetch();
+    };
+
+    const handleTriggerRefetch = () => {
         setTriggerRefetch(prev => prev + 1);
     };
 
     return (
         <div className="main">
-            <Sidebar triggerRefetch={triggerRefetch} />
+            <Sidebar triggerRefetch={triggerRefetch} handleTriggerRefetch={handleTriggerRefetch} />
             <div className="run-display">
                 {run && (
                     <>

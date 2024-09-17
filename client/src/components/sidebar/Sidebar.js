@@ -1,12 +1,12 @@
 import React from "react";
 import "./sidebar.css";
-import StartNew from "./StartNew";
+import Actions from "./Actions";
 import ResultNav from "./ResultNav";
 
-const Sidebar = ({ triggerRefetch }) => {
+const Sidebar = ({ triggerRefetch, handleTriggerRefetch }) => {
 	return (
 		<div className="sidebar">
-			<StartNew />
+			<Actions handleTriggerRefetch={handleTriggerRefetch} />
 			<ResultNav triggerRefetch={triggerRefetch} />
 		</div>
 	);
