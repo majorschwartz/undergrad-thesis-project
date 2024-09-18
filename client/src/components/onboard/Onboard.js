@@ -13,7 +13,7 @@ const Onboard = () => {
 	const [answers, setAnswers] = useState([]);
 	const [isLoading, setIsLoading] = useState(false);
 	const navigate = useNavigate();
-	// const [error, setError] = useState(null);
+	const [error, setError] = useState(null);
 
 	const handleFileUpload = (data) => {
 		const { questions, answers } = parseCSV(data);
@@ -34,11 +34,11 @@ const Onboard = () => {
 				navigate(`/run/${response.run_id}`);
 			} else {
 				console.error("Failed to create run");
-				// Handle error (e.g., show error message to user)
+				setError("Failed to create run");
 			}
 		} catch (error) {
 			console.error("Error creating run:", error);
-			// Handle error (e.g., show error message to user)
+			setError("Error creating run");
 		}
 	};
 
@@ -49,6 +49,7 @@ const Onboard = () => {
 			<h1>Create a new run.</h1>
 			<FileUpload handleFileUpload={handleFileUpload} />
 			<ModelSelect models={models} selectedModels={selectedModels} setSelectedModels={setSelectedModels} />
+			{error && <p className="error">{error}</p>}
 			<button className={`create-run-button ${isLoading ? "loading" : createAllowed ? "allowed" : "disabled"}`} onClick={handleCreateRun}>{isLoading ? "Loading..." : "Create Run"}</button>
 		</div>
 	);
