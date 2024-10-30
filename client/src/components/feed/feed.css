@@ -100,7 +100,6 @@
 .flex-wrap {
 	padding: 0.5rem;
 	display: flex;
-	/* justify-content: space-around; */
 	width: 100%;
 }
 

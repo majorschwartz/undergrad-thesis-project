@@ -9,16 +9,27 @@ from database.dbget import db_get_run_count
 
 router = APIRouter()
 
+def get_run_name(models: list[str]) -> str:
+	model_map = {
+		"gpt-4o-mini": "GPT",
+		"claude-3-sonnet-20240229": "Claude",
+		"llama-3-1-8b": "Llama",
+		"knowledge-graph": "KG",
+	}
+	return f"{'+'.join([model_map[model] for model in models])} Run"
+
 class CreateRunRequest(BaseModel):
 	models: list[str]
 	prompts: list[str]
 	eval_answers: list[str | None]
+	context: str | None = None
 
 @router.post("/create-run")
 async def create_run(request: CreateRunRequest):
 	new_run = {
 		"running": True,
-		"run_name": "Untitled Run",
+		"run_name": get_run_name(request.models),
+		"context": request.context,
 		"models": request.models,
 		"started_at": int(time.time() * 1000),
 		"finished_at": None,
@@ -45,11 +56,8 @@ async def create_run(request: CreateRunRequest):
 				"time_elapsed": 0,
 			})
 
-	# run_count = await db_get_run_count()
-	# new_run["run_name"] = f"Run #{run_count + 1}"
-
 	run_id = await db_post_run(new_run)
 
-	asyncio.create_task(prompt_models(run_id, request.prompts, request.models, request.eval_answers))
+	asyncio.create_task(prompt_models(run_id, request.prompts, request.models, request.eval_answers, request.context))
 
 	return JSONResponse(content={"run_id": run_id}, status_code=200)

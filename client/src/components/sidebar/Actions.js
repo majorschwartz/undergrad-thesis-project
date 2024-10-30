@@ -66,7 +66,7 @@ const Actions = ({ handleTriggerRefetch }) => {
 				<span>{areYouSure ? "Are you sure?" : "Delete Runs"}</span>
 			</button>
 			{areYouSure && (
-				<React.Fragment>
+				<div className="delete-runs-wrapper">
 					<button
 						onClick={handleDeleteRuns}
 						className="sidebar-btn action-btn delete-runs-btn"
@@ -79,7 +79,7 @@ const Actions = ({ handleTriggerRefetch }) => {
 					>
 						<b>Cancel</b>
 					</button>
-				</React.Fragment>
+				</div>
 			)}
 		</div>
 	);

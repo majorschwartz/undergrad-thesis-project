@@ -34,6 +34,31 @@ Question: {question}
 Your Answer:
 """
 
+CONTEXT_PROMPT_FORMAT = """
+*CONTEXT:*
+
+{context}
+
+---
+
+*TASK:*
+
+Answer the following question concisely.
+
+*Examples:*
+
+Question: What is the capital of France?
+Answer: Paris
+
+Question: What is 15 * 15?
+Answer: 225
+
+---
+
+Question: {question}
+Your Answer:
+"""
+
 EVAL_PROMPT = """
 You are an evaluation bot. You determine if the person's response to a question is correct.
 You will be given the question, the true answer, and the person's response.

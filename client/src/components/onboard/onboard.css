@@ -14,7 +14,7 @@
 	justify-content: center;
 	align-items: center;
 	gap: 15px;
-	height: 150px;
+	height: 180px;
 	width: 400px;
 	background-color: transparent;
 	border: 2px dashed #000;
@@ -98,4 +98,14 @@
 .create-run-button.loading {
 	background-color: #61a8ffc4;
 	cursor: default;
+}
+
+.upload-area.context {
+	height: 120px;
+	gap: 8px;
+}
+
+.upload-area.context.file-uploaded {
+	border: 2px solid #426bff;
+	background-color: rgba(66, 107, 255, 0.1);
 }

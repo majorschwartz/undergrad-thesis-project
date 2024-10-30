@@ -13,6 +13,7 @@
 	display: flex;
 	flex-direction: column;
 	gap: 0.75rem;
+	margin-bottom: 0.5rem;
 }
 
 .sidebar-header, .run-list {
@@ -36,8 +37,8 @@
 	background-color: rgb(200, 200, 200);
 	cursor: pointer;
 	text-align: left;
-	overflow: hidden; /* Add this line */
-	white-space: nowrap; /* Add this line */
+	overflow: hidden;
+	white-space: nowrap;
 }
 
 .sidebar-btn.action-btn {
@@ -71,8 +72,13 @@
 }
 
 .run-name {
-	display: block; /* Add this block */
+	display: block;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
+}
+
+.delete-runs-wrapper {
+	display: flex;
+	gap: 0.5rem;
 }

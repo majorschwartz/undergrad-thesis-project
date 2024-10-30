@@ -8,6 +8,7 @@ class KgThreadClient:
                 json={"question": prompt},
                 timeout=120.0,
             )
+        print(response.json())
         return response.json()["answer"]
 
 
