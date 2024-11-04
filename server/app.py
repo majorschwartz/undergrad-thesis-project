@@ -43,3 +43,7 @@ async def websocket_endpoint(websocket: WebSocket):
 @app.get("/hello")
 async def hello():
 	return {"message": f"Hello World {random.randint(1, 1000)}"}
+
+if __name__ == "__main__":
+	import uvicorn
+	uvicorn.run(app, host="0.0.0.0", port=5000)
