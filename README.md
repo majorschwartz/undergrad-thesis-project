@@ -82,3 +82,54 @@ The application will be available at `http://localhost:3000`
 3. Select desired LLM models for evaluation
 4. Create a new run and monitor results in real-time
 5. Download results in CSV format when complete
+
+## Other Models
+
+### Llama 3.1
+
+Running locally and exposed on port 8080 with the following endpoint:
+
+```bash
+http://127.0.0.1:8080/generate
+```
+
+With the following example body:
+
+```bash
+{
+  "prompt": "What is the capital of France?"
+}
+```
+
+Returned JSON:
+
+```bash
+{
+  "content": "The capital of France is Paris."
+}
+```
+
+### Knowledge Graph
+
+Running locally and exposed on port 8010 with the following endpoint:
+
+```bash
+http://127.0.0.1:8010/run-forensiq
+```
+
+With the following example body:
+
+```bash
+{
+  "question": "What is the capital of France?",
+  "timeout": 120.0
+}
+```
+
+Returned JSON:
+
+```bash
+{
+  "answer": "The capital of France is Paris."
+}
+```
